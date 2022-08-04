@@ -8,17 +8,30 @@ public class BST {
     public void InOrder(TreeNode root) {
         if (root == null) return;
         InOrder(root.left);
-        System.out.println(root.data);
+        System.out.print(root.data + "\t");
         InOrder(root.right);
     }
 
-    public void AddNode(TreeNode root, int elem) {
+    public void AddNode(int elem) {
         TreeNode node = new TreeNode(elem);
-        if (root == null) {
-            root = node;
+        TreeNode cur = root, parent = null;
+        while (cur != null) {
+            parent = cur;
+            if (elem > cur.data) cur = cur.right;
+            else {
+                if (elem < cur.data) cur = cur.left;
+                else {
+                    cur.data = elem;
+                    return;
+                }
+            }
+        }
+
+        if (root != null) {
+            if (elem < parent.data) parent.left = node;
+            else parent.right = node;
         } else {
-            if (elem < root.data) AddNode(root.left, elem);
-            if (elem >= root.data) AddNode(root.right, elem);
+            root = node;
         }
     }
 
@@ -29,8 +42,11 @@ public class BST {
         //Find the element
         while (elem != target.data) {
             parent = target;
-            if (elem < target.data) target = target.left;
-            else target = target.right;
+            if (elem < target.data) {
+                target = target.left;
+            } else {
+                target = target.right;
+            }
         }
 
         //Node has both left and right
@@ -43,16 +59,13 @@ public class BST {
             }
 
             //Move max node
-            TreeNode newNode = new TreeNode(maxOfLeft.data, target.left, target.right);
-            if (parent == null) root = maxOfLeft;
-            else {
-                if (target == parent.left) parent.left = newNode;
-                else parent.right = newNode;
-            }
-            if (parentOfMax == target) parent = maxOfLeft;
-            else parent = parentOfMax;
-            target = null;
-            target = maxOfLeft;
+            target.data = maxOfLeft.data;
+
+            //Delete max node
+            if (maxOfLeft == parentOfMax.right) parentOfMax.right = maxOfLeft.left;
+            else parentOfMax.left = maxOfLeft.left;
+
+
         } else { //Node has less one child
             TreeNode newNode;
             if (target.left != null) newNode = target.left;
@@ -64,10 +77,6 @@ public class BST {
                 else parent.right = newNode;
             }
         }
-    }
-
-    public void AddNode(int elem) {
-        AddNode(this.root, elem);
     }
 
     public void InOrder() {
