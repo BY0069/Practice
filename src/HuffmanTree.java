@@ -6,10 +6,12 @@ public class HuffmanTree {
 
     public HuffmanTree() {
         this.nodes = new java.util.ArrayList<>();
-        String c = new Scanner(System.in).next();
+        Scanner sc = new Scanner(System.in);
+        String c = sc.next();
         int n = c.length();
         for (int i = 0; i < n; i++)
             nodes.add(new HFTNode(c.charAt(i), c.charAt(i)));
+        sc.close();
     }
 
     public void BuildTree() {
@@ -25,6 +27,16 @@ public class HuffmanTree {
             nodes.add(node3);
         }
         root = nodes.get(0);
+    }
+
+    public void Code(HFTNode root) {
+        if (root.left != null) {
+            root.left.code += '0';
+            Code(root.left);
+
+            root.right.code += '1';
+            Code(root.right);
+        }
     }
 
     private void InOrder(HFTNode root) {
