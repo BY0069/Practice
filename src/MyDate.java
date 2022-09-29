@@ -1,13 +1,15 @@
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class MyDate {
     private int year, month, day;
 
     public MyDate() {
-        Date date = new Date();
-        setDate(date.getTime());
+        LocalDateTime now = LocalDateTime.now();
+        year = now.getYear();
+        month = now.getMonthValue();
+        day = now.getDayOfMonth();
     }
 
     public MyDate(long elapsedTime) {
@@ -16,16 +18,15 @@ public class MyDate {
 
     public MyDate(int year, int month, int day) {
         this.year = year;
-        this.month = month + 1;
+        this.month = month;
         this.day = day;
     }
 
     public void setDate(long elapsedTime) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(elapsedTime);
-        this.year = calendar.get(Calendar.YEAR);
-        this.month = calendar.get(Calendar.MONTH) + 1;
-        this.day = calendar.get(Calendar.DAY_OF_MONTH);
+        LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(elapsedTime), ZoneOffset.of("+8"));
+        this.year = date.getYear();
+        this.month = date.getMonthValue();
+        this.day = date.getDayOfYear();
     }
 
 }

@@ -12,7 +12,7 @@ public class BST {
         InOrder(root.right);
     }
 
-    public void AddNode(int elem) {
+    public void InsertNode(int elem) {
         TreeNode node = new TreeNode(elem);
         TreeNode cur = root, parent = null;
         while (cur != null) {
